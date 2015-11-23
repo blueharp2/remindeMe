@@ -15,6 +15,7 @@
 		901535121C03AE7300E0BC9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 901535101C03AE7300E0BC9D /* LaunchScreen.storyboard */; };
 		9015351D1C03AE7300E0BC9D /* remindMeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9015351C1C03AE7300E0BC9D /* remindMeTests.m */; };
 		901535281C03AE7400E0BC9D /* remindMeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 901535271C03AE7400E0BC9D /* remindMeUITests.m */; };
+		901535361C03AE9F00E0BC9D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901535351C03AE9F00E0BC9D /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		901535231C03AE7400E0BC9D /* remindMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = remindMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		901535271C03AE7400E0BC9D /* remindMeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = remindMeUITests.m; sourceTree = "<group>"; };
 		901535291C03AE7400E0BC9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		901535351C03AE9F00E0BC9D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				901535361C03AE9F00E0BC9D /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +84,7 @@
 		901534F61C03AE7300E0BC9D = {
 			isa = PBXGroup;
 			children = (
+				901535351C03AE9F00E0BC9D /* MapKit.framework */,
 				901535011C03AE7300E0BC9D /* remindMe */,
 				9015351B1C03AE7300E0BC9D /* remindMeTests */,
 				901535261C03AE7400E0BC9D /* remindMeUITests */,
@@ -208,6 +212,11 @@
 					901534FE1C03AE7300E0BC9D = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = WKDM22E7R2;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					901535171C03AE7300E0BC9D = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -417,6 +426,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = remindMe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Lindsey-Boggio.remindMe";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -428,6 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = remindMe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Lindsey-Boggio.remindMe";
 				PRODUCT_NAME = "$(TARGET_NAME)";

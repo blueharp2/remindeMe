@@ -8,7 +8,28 @@
 
 #import <UIKit/UIKit.h>
 
+@import MapKit;
+@import CoreLocation;
+
+
+
+
+
+
 @interface ViewController : UIViewController
+
+
+@property (strong, nonatomic) CLLocationManager *locationManager;
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+
+
+
+- (void)requestPermissions;
+
+
+//-(IBAction)locationButtonSelected:(id)sender;
+
 
 
 @end
