@@ -97,10 +97,6 @@
 		90123D3D1C05020A0003E206 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				901535051C03AE7300E0BC9D /* AppDelegate.h */,
-				901535061C03AE7300E0BC9D /* AppDelegate.m */,
-				90123D3F1C0502B50003E206 /* LocationController.h */,
-				90123D401C0502B50003E206 /* LocationController.m */,
 				901535081C03AE7300E0BC9D /* ViewController.h */,
 				901535091C03AE7300E0BC9D /* ViewController.m */,
 			);
@@ -110,6 +106,10 @@
 		90123D3E1C05021A0003E206 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				901535051C03AE7300E0BC9D /* AppDelegate.h */,
+				901535061C03AE7300E0BC9D /* AppDelegate.m */,
+				90123D3F1C0502B50003E206 /* LocationController.h */,
+				90123D401C0502B50003E206 /* LocationController.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";

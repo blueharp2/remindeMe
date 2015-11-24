@@ -21,9 +21,13 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="g4W-6g-3PQ">
                                 <rect key="frame" x="50" y="28" width="500" height="500"/>
                                 <animations/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="500" id="Vu9-Ua-glW"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="5or-MR-Avm" appends="YES" id="d4k-DZ-QRB"/>
+                                </connections>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSr-j8-ntM">
                                 <rect key="frame" x="50" y="536" width="73" height="30"/>
@@ -65,10 +69,15 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="mapView" destination="g4W-6g-3PQ" id="MLz-QC-Mtg"/>
+                        <outlet property="mapView" destination="g4W-6g-3PQ" id="quc-qS-Vyk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="5or-MR-Avm">
+                    <connections>
+                        <action selector="handleLongPressGesture:" destination="BYZ-38-t0r" id="hn5-ak-JgA"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="312" y="387"/>
         </scene>

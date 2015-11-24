@@ -12,6 +12,7 @@
 
 @interface ViewController () <LocationControllerDelegate, MKMapViewDelegate>
 
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
 
@@ -73,18 +74,61 @@
     
 }
 
+- (IBAction)handleLongPressGesture:(UILongPressGestureRecognizer *)sender {
+    
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        
+        CGPoint touchPoint = [sender locationInView:self.mapView];
+        CLLocationCoordinate2D cordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView: self.mapView];
+        
+        MKPointAnnotation *newPoint = [[MKPointAnnotation alloc]init];
+        newPoint.coordinate = cordinate;
+        newPoint.title = @"New Location";
+        newPoint.subtitle = @"Hello";
+        
+        [self.mapView addAnnotation:newPoint];
+        
+        
+    }
+}
+
+
+
 #pragma mark - LocationController
 
 -(void)locationControllerDidUpdateLocation:(CLLocation *)location{
     [self setRegion: MKCoordinateRegionMakeWithDistance(location.coordinate, 500.0, 500.)];
 }
 
+#pragma mark = MKMapViewDelegate
 
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    //Add view
+    MKPinAnnotationView *annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"AnnotationView"];
+    
+    annotationView.annotation = annotation;
+    
+    if (!annotationView) {
+        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"AnnotationView"];
+        
+        annotationView.canShowCallout = YES;
+        UIButton *rightCallout = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        annotationView.rightCalloutAccessoryView = rightCallout;
+        
+        return annotationView;
+    } else {
+        return nil;
+    }
+    
 }
+//-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *) control {
+//    [self performSegueWithIdentifier: @"DetailViewController" sender:view];
+//}
+
+
+
 
 @end
