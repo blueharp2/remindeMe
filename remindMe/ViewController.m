@@ -124,9 +124,9 @@
     }
     
 }
-//-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *) control {
-//    [self performSegueWithIdentifier: @"DetailViewController" sender:view];
-//}
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *) control {
+    [self performSegueWithIdentifier: @"DetailViewController" sender:view];
+}
 
 
 
