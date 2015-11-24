@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90123D411C0502B50003E206 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90123D401C0502B50003E206 /* LocationController.m */; };
 		901535041C03AE7300E0BC9D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 901535031C03AE7300E0BC9D /* main.m */; };
 		901535071C03AE7300E0BC9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 901535061C03AE7300E0BC9D /* AppDelegate.m */; };
 		9015350A1C03AE7300E0BC9D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 901535091C03AE7300E0BC9D /* ViewController.m */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		90123D3F1C0502B50003E206 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
+		90123D401C0502B50003E206 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		901534FF1C03AE7300E0BC9D /* remindMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = remindMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		901535031C03AE7300E0BC9D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		901535051C03AE7300E0BC9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -81,10 +84,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		90123D3C1C0501E90003E206 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9015350B1C03AE7300E0BC9D /* Main.storyboard */,
+				9015350E1C03AE7300E0BC9D /* Assets.xcassets */,
+				901535101C03AE7300E0BC9D /* LaunchScreen.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		90123D3D1C05020A0003E206 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				901535051C03AE7300E0BC9D /* AppDelegate.h */,
+				901535061C03AE7300E0BC9D /* AppDelegate.m */,
+				90123D3F1C0502B50003E206 /* LocationController.h */,
+				90123D401C0502B50003E206 /* LocationController.m */,
+				901535081C03AE7300E0BC9D /* ViewController.h */,
+				901535091C03AE7300E0BC9D /* ViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		90123D3E1C05021A0003E206 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		901534F61C03AE7300E0BC9D = {
 			isa = PBXGroup;
 			children = (
-				901535351C03AE9F00E0BC9D /* MapKit.framework */,
 				901535011C03AE7300E0BC9D /* remindMe */,
 				9015351B1C03AE7300E0BC9D /* remindMeTests */,
 				901535261C03AE7400E0BC9D /* remindMeUITests */,
@@ -105,14 +137,9 @@
 		901535011C03AE7300E0BC9D /* remindMe */ = {
 			isa = PBXGroup;
 			children = (
-				901535051C03AE7300E0BC9D /* AppDelegate.h */,
-				901535061C03AE7300E0BC9D /* AppDelegate.m */,
-				901535081C03AE7300E0BC9D /* ViewController.h */,
-				901535091C03AE7300E0BC9D /* ViewController.m */,
-				9015350B1C03AE7300E0BC9D /* Main.storyboard */,
-				9015350E1C03AE7300E0BC9D /* Assets.xcassets */,
-				901535101C03AE7300E0BC9D /* LaunchScreen.storyboard */,
-				901535131C03AE7300E0BC9D /* Info.plist */,
+				90123D3E1C05021A0003E206 /* Models */,
+				90123D3D1C05020A0003E206 /* Controllers */,
+				90123D3C1C0501E90003E206 /* Views */,
 				901535021C03AE7300E0BC9D /* Supporting Files */,
 			);
 			path = remindMe;
@@ -121,7 +148,9 @@
 		901535021C03AE7300E0BC9D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				901535351C03AE9F00E0BC9D /* MapKit.framework */,
 				901535031C03AE7300E0BC9D /* main.m */,
+				901535131C03AE7300E0BC9D /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -282,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90123D411C0502B50003E206 /* LocationController.m in Sources */,
 				9015350A1C03AE7300E0BC9D /* ViewController.m in Sources */,
 				901535071C03AE7300E0BC9D /* AppDelegate.m in Sources */,
 				901535041C03AE7300E0BC9D /* main.m in Sources */,
@@ -512,6 +542,7 @@
 				9015352E1C03AE7400E0BC9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9015352F1C03AE7400E0BC9D /* Build configuration list for PBXNativeTarget "remindMeTests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +551,7 @@
 				901535311C03AE7400E0BC9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		901535321C03AE7400E0BC9D /* Build configuration list for PBXNativeTarget "remindMeUITests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +560,7 @@
 				901535341C03AE7400E0BC9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

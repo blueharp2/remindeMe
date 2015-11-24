@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "LocationController.h"
 
-@interface ViewController ()
+
+@interface ViewController () <LocationControllerDelegate, MKMapViewDelegate>
+
 
 @end
 
@@ -16,15 +19,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self requestPermissions];
+    //[self requestPermissions];
     [self.mapView setShowsUserLocation:YES];
 }
 
-- (void)requestPermissions {
-    
-    self.locationManager = [[CLLocationManager alloc]init];
-    [self.locationManager requestWhenInUseAuthorization];
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[LocationController sharedController]setDelegate:self];
+    [[[LocationController sharedController]locationManager]startUpdatingLocation];
 }
+
+
+
+//- (void)requestPermissions {
+//    
+//    self.locationManager = [[CLLocationManager alloc]init];
+//    [self.locationManager requestWhenInUseAuthorization];
+//}
 
 -(void) setRegion:(MKCoordinateRegion) region{
     [self.mapView setRegion:region animated:(YES)];
@@ -60,9 +71,14 @@
     
    // }
     
-
-    
 }
+
+#pragma mark - LocationController
+
+-(void)locationControllerDidUpdateLocation:(CLLocation *)location{
+    [self setRegion: MKCoordinateRegionMakeWithDistance(location.coordinate, 500.0, 500.)];
+}
+
 
 
 
