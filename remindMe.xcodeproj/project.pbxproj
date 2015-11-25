@@ -17,6 +17,7 @@
 		9015351D1C03AE7300E0BC9D /* remindMeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9015351C1C03AE7300E0BC9D /* remindMeTests.m */; };
 		901535281C03AE7400E0BC9D /* remindMeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 901535271C03AE7400E0BC9D /* remindMeUITests.m */; };
 		901535361C03AE9F00E0BC9D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 901535351C03AE9F00E0BC9D /* MapKit.framework */; };
+		9087204C1C052D2800C3461C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9087204B1C052D2800C3461C /* DetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		901535271C03AE7400E0BC9D /* remindMeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = remindMeUITests.m; sourceTree = "<group>"; };
 		901535291C03AE7400E0BC9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		901535351C03AE9F00E0BC9D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9087204A1C052D2800C3461C /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		9087204B1C052D2800C3461C /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +102,8 @@
 			children = (
 				901535081C03AE7300E0BC9D /* ViewController.h */,
 				901535091C03AE7300E0BC9D /* ViewController.m */,
+				9087204A1C052D2800C3461C /* DetailViewController.h */,
+				9087204B1C052D2800C3461C /* DetailViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9087204C1C052D2800C3461C /* DetailViewController.m in Sources */,
 				90123D411C0502B50003E206 /* LocationController.m in Sources */,
 				9015350A1C03AE7300E0BC9D /* ViewController.m in Sources */,
 				901535071C03AE7300E0BC9D /* AppDelegate.m in Sources */,

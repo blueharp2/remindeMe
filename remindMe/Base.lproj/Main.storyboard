@@ -70,6 +70,7 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="g4W-6g-3PQ" id="quc-qS-Vyk"/>
+                        <segue destination="qgp-XR-ajx" kind="show" identifier="DetailViewController" id="MzD-BF-IEz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -80,6 +81,25 @@
                 </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="312" y="387"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="P76-TZ-raW">
+            <objects>
+                <viewController storyboardIdentifier="DetailViewController" id="qgp-XR-ajx" customClass="DetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="j0I-3n-lZm"/>
+                        <viewControllerLayoutGuide type="bottom" id="pj1-uH-9Qt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ls6-HC-7wL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W8O-YS-wVv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="967" y="387"/>
         </scene>
     </scenes>
 </document>

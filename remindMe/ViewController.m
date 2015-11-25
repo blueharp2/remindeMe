@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "LocationController.h"
+#import "DetailViewController.h"
 
 
 @interface ViewController () <LocationControllerDelegate, MKMapViewDelegate>
@@ -22,6 +23,7 @@
     [super viewDidLoad];
     //[self requestPermissions];
     [self.mapView setShowsUserLocation:YES];
+    self.mapView.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -33,7 +35,7 @@
 
 
 //- (void)requestPermissions {
-//    
+//
 //    self.locationManager = [[CLLocationManager alloc]init];
 //    [self.locationManager requestWhenInUseAuthorization];
 //}
@@ -70,7 +72,7 @@
         [self setRegion:region];
     }
     
-   // }
+    // }
     
 }
 
@@ -100,34 +102,48 @@
     [self setRegion: MKCoordinateRegionMakeWithDistance(location.coordinate, 500.0, 500.)];
 }
 
+
+
 #pragma mark = MKMapViewDelegate
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     }
+    
     //Add view
     MKPinAnnotationView *annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"AnnotationView"];
     
     annotationView.annotation = annotation;
     
-    if (!annotationView) {
+//    if (!annotationView) {
         annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"AnnotationView"];
-        
         annotationView.canShowCallout = YES;
         UIButton *rightCallout = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        annotationView.rightCalloutAccessoryView = rightCallout;
-        
-        return annotationView;
-    } else {
-        return nil;
-    }
+
+                annotationView.rightCalloutAccessoryView = rightCallout;
+//    }
+    return annotationView;
     
 }
+
+
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *) control {
     [self performSegueWithIdentifier: @"DetailViewController" sender:view];
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"DetailViewController"]) {
+        if ([sender isKindOfClass:[MKAnnotationView class]]){
+            MKAnnotationView *annotationView = (MKAnnotationView *) sender;
+            DetailViewController *detailViewController = (DetailViewController *)segue.destinationViewController;
+            detailViewController.annotationTitle = annotationView.annotation.title;
+            detailViewController.coordinate = annotationView.annotation.coordinate;
+        }
+    }
+    
+}
 
 
 

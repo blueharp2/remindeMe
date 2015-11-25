@@ -23,10 +23,7 @@
 
 //@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
-
-
-- (void)requestPermissions;
-
+//- (void)requestPermissions;
 
 //-(IBAction)locationButtonSelected:(id)sender;
 
