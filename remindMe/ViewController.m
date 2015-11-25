@@ -101,7 +101,6 @@
 }
 
 
-
 #pragma mark - LocationController
 
 -(void)locationControllerDidUpdateLocation:(CLLocation *)location{
