@@ -7,8 +7,13 @@
 //
 
 #import "ViewController.h"
+#import "LocationController.h"
+#import "DetailViewController.h"
 
-@interface ViewController ()
+
+@interface ViewController () <LocationControllerDelegate, MKMapViewDelegate>
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
 
@@ -16,15 +21,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self requestPermissions];
+    //[self requestPermissions];
     [self.mapView setShowsUserLocation:YES];
+    self.mapView.delegate = self;
 }
 
-- (void)requestPermissions {
-    
-    self.locationManager = [[CLLocationManager alloc]init];
-    [self.locationManager requestWhenInUseAuthorization];
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[LocationController sharedController]setDelegate:self];
+    [[[LocationController sharedController]locationManager]startUpdatingLocation];
 }
+
+
+
+//- (void)requestPermissions {
+//
+//    self.locationManager = [[CLLocationManager alloc]init];
+//    [self.locationManager requestWhenInUseAuthorization];
+//}
 
 -(void) setRegion:(MKCoordinateRegion) region{
     [self.mapView setRegion:region animated:(YES)];
@@ -58,17 +72,79 @@
         [self setRegion:region];
     }
     
-   // }
+    // }
     
+}
 
+- (IBAction)handleLongPressGesture:(UILongPressGestureRecognizer *)sender {
     
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        
+        CGPoint touchPoint = [sender locationInView:self.mapView];
+        CLLocationCoordinate2D cordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView: self.mapView];
+        
+        MKPointAnnotation *newPoint = [[MKPointAnnotation alloc]init];
+        newPoint.coordinate = cordinate;
+        newPoint.title = @"New Location";
+        newPoint.subtitle = @"Hello";
+        
+        [self.mapView addAnnotation:newPoint];
+        
+        
+    }
 }
 
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - LocationController
+
+-(void)locationControllerDidUpdateLocation:(CLLocation *)location{
+    [self setRegion: MKCoordinateRegionMakeWithDistance(location.coordinate, 500.0, 500.)];
 }
+
+
+
+#pragma mark = MKMapViewDelegate
+
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    
+    //Add view
+    MKPinAnnotationView *annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"AnnotationView"];
+    
+    annotationView.annotation = annotation;
+    
+//    if (!annotationView) {
+        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"AnnotationView"];
+        annotationView.canShowCallout = YES;
+        UIButton *rightCallout = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+
+                annotationView.rightCalloutAccessoryView = rightCallout;
+//    }
+    return annotationView;
+    
+}
+
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *) control {
+    [self performSegueWithIdentifier: @"DetailViewController" sender:view];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"DetailViewController"]) {
+        if ([sender isKindOfClass:[MKAnnotationView class]]){
+            MKAnnotationView *annotationView = (MKAnnotationView *) sender;
+            DetailViewController *detailViewController = (DetailViewController *)segue.destinationViewController;
+            detailViewController.annotationTitle = annotationView.annotation.title;
+            detailViewController.coordinate = annotationView.annotation.coordinate;
+        }
+    }
+    
+}
+
+
 
 @end
