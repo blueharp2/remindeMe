@@ -9,11 +9,15 @@
 #import "ViewController.h"
 #import "LocationController.h"
 #import "DetailViewController.h"
+@import Parse;
+@import ParseUI;
 
 
-@interface ViewController () <LocationControllerDelegate, MKMapViewDelegate>
+@interface ViewController () <LocationControllerDelegate, MKMapViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+
+
 
 @end
 
@@ -24,6 +28,8 @@
     //[self requestPermissions];
     [self.mapView setShowsUserLocation:YES];
     self.mapView.delegate = self;
+    [self login];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -145,6 +151,52 @@
     
 }
 
+#pragma mark -Parse Setup
 
+-(void)login{
+    if (![PFUser currentUser]){
+        
+        
+        PFLogInViewController * loginViewController = [[PFLogInViewController alloc]init];
+        [loginViewController setDelegate:self];
+        
+        PFSignUpViewController * signupViewController = [[PFSignUpViewController alloc] init];
+        [signupViewController setDelegate:self];
+        
+        [loginViewController setSignUpController:signupViewController];
+
+        
+        [self presentViewController:loginViewController animated:YES completion:nil];
+        
+    }else{
+        [self setupAdditionalUI];
+    }
+}
+
+
+-(void)setupAdditionalUI{
+    UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc]initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(signOut)];
+    self.navigationItem.leftBarButtonItem = signOutButton;
+}
+
+-(void)signOut{
+    
+    [PFUser logOut];
+    [self login];
+}
+
+#pragma mark - PFLoginViewControllerDelegate
+
+-(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self setupAdditionalUI];
+}
+
+#pragma mark - PFSignUpViewControllerDelegate
+
+-(void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self setupAdditionalUI];
+}
 
 @end
