@@ -36,6 +36,7 @@
 		903220601C065921000D0BA5 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9032205F1C065921000D0BA5 /* Accounts.framework */; };
 		903220621C06592A000D0BA5 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 903220611C06592A000D0BA5 /* Social.framework */; };
 		9087204C1C052D2800C3461C /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9087204B1C052D2800C3461C /* DetailViewController.m */; };
+		90F396441C06888500E09FC4 /* Reminder.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F396431C06888500E09FC4 /* Reminder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,8 @@
 		903220611C06592A000D0BA5 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9087204A1C052D2800C3461C /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		9087204B1C052D2800C3461C /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		90F396421C06888500E09FC4 /* Reminder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reminder.h; sourceTree = "<group>"; };
+		90F396431C06888500E09FC4 /* Reminder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reminder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +170,8 @@
 			children = (
 				90123D3F1C0502B50003E206 /* LocationController.h */,
 				90123D401C0502B50003E206 /* LocationController.m */,
+				90F396421C06888500E09FC4 /* Reminder.h */,
+				90F396431C06888500E09FC4 /* Reminder.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -389,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9087204C1C052D2800C3461C /* DetailViewController.m in Sources */,
+				90F396441C06888500E09FC4 /* Reminder.m in Sources */,
 				90123D411C0502B50003E206 /* LocationController.m in Sources */,
 				9015350A1C03AE7300E0BC9D /* ViewController.m in Sources */,
 				901535071C03AE7300E0BC9D /* AppDelegate.m in Sources */,
