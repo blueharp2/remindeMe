@@ -94,9 +94,45 @@
                     <view key="view" contentMode="scaleToFill" id="Ls6-HC-7wL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Reminder" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QHf-tB-7VJ">
+                                <rect key="frame" x="20" y="72" width="560" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Radius" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z9J-cC-bXQ">
+                                <rect key="frame" x="20" y="110" width="560" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sF-uf-fjH">
+                                <rect key="frame" x="283" y="148" width="34" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveReminderButton:" destination="qgp-XR-ajx" eventType="touchUpInside" id="bE5-Ue-hB0"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="QHf-tB-7VJ" secondAttribute="trailing" constant="20" id="1tw-BE-GUf"/>
+                            <constraint firstAttribute="trailing" secondItem="z9J-cC-bXQ" secondAttribute="trailing" constant="20" id="41A-bT-wGF"/>
+                            <constraint firstItem="z9J-cC-bXQ" firstAttribute="leading" secondItem="Ls6-HC-7wL" secondAttribute="leading" constant="20" id="ZVI-ZQ-NDt"/>
+                            <constraint firstItem="QHf-tB-7VJ" firstAttribute="top" secondItem="j0I-3n-lZm" secondAttribute="bottom" constant="8" id="bWu-LQ-syn"/>
+                            <constraint firstItem="QHf-tB-7VJ" firstAttribute="leading" secondItem="Ls6-HC-7wL" secondAttribute="leading" constant="20" id="dfk-5y-Tgn"/>
+                            <constraint firstItem="z9J-cC-bXQ" firstAttribute="top" secondItem="QHf-tB-7VJ" secondAttribute="bottom" constant="8" id="krI-JY-SHs"/>
+                            <constraint firstItem="2sF-uf-fjH" firstAttribute="top" secondItem="z9J-cC-bXQ" secondAttribute="bottom" constant="8" symbolic="YES" id="qcc-4j-m8Q"/>
+                            <constraint firstItem="2sF-uf-fjH" firstAttribute="centerX" secondItem="Ls6-HC-7wL" secondAttribute="centerX" id="uoG-v4-urK"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="radiusTextField" destination="z9J-cC-bXQ" id="IPb-yi-Zr7"/>
+                        <outlet property="reminderTextField" destination="QHf-tB-7VJ" id="myd-eX-6vx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W8O-YS-wVv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

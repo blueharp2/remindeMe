@@ -11,6 +11,7 @@
 #import "DetailViewController.h"
 @import Parse;
 @import ParseUI;
+@import MapKit;
 
 
 @interface ViewController () <LocationControllerDelegate, MKMapViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
@@ -137,6 +138,14 @@
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *) control {
     [self performSegueWithIdentifier: @"DetailViewController" sender:view];
 }
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
+    MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc]initWithOverlay:overlay];
+    circleRenderer.strokeColor = [UIColor redColor];
+    circleRenderer.fillColor = [UIColor redColor];
+    circleRenderer.alpha = 0.5;
+    
+    return circleRenderer;
+}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"DetailViewController"]) {
@@ -145,6 +154,14 @@
             DetailViewController *detailViewController = (DetailViewController *)segue.destinationViewController;
             detailViewController.annotationTitle = annotationView.annotation.title;
             detailViewController.coordinate = annotationView.annotation.coordinate;
+           
+            __weak typeof(self) weakSelf = self;
+            
+            detailViewController.completion = ^(MKCircle *circle) {
+                [weakSelf.mapView removeAnnotation:annotationView.annotation];
+                [weakSelf.mapView addOverlay:circle];
+                
+            };
         }
     }
     
@@ -197,5 +214,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     [self setupAdditionalUI];
 }
+
 
 @end
