@@ -7,6 +7,7 @@
 //
 
 #import "LocationController.h"
+//#import "Reminder.h"
 
 @interface LocationController() <CLLocationManagerDelegate>
 
@@ -42,6 +43,17 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     [self.delegate locationControllerDidUpdateLocation:locations.lastObject];
     [self setLocation:locations.lastObject];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
+    NSLog(@"User did enter region");
+    
+    UILocalNotification *notificiation = [[UILocalNotification alloc]init];
+    notificiation.alertTitle = @"You have entered a reminder region";
+    notificiation.alertBody = @"Figure out how to add reminder text here";
+    
+    [[UIApplication sharedApplication]presentLocalNotificationNow:notificiation];
+    
 }
 
 @end

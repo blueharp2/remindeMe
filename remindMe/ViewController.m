@@ -37,6 +37,7 @@
     [super viewWillAppear:animated];
     [[LocationController sharedController]setDelegate:self];
     [[[LocationController sharedController]locationManager]startUpdatingLocation];
+    [self parseQuery];
 }
 
 
@@ -213,6 +214,28 @@
 -(void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user{
     [self dismissViewControllerAnimated:YES completion:nil];
     [self setupAdditionalUI];
+}
+
+#pragma mark - Parse Query
+
+-(void)parseQuery{
+    NSMutableArray *allObjects = [NSMutableArray array];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Reminder"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSLog(@"Received objects from Parse");
+            [allObjects addObjectsFromArray:objects];
+            
+        }else{
+            NSLog(@"Error: %@ %@, error, [error userInfo]");
+        }
+    }];
+    //This is getting called before the allObjects array has been populated. 
+    for (int i=0; i<[allObjects count]; i++){
+        NSLog(@"%d: %@", i, allObjects[i]);
+        
+    }
 }
 
 
