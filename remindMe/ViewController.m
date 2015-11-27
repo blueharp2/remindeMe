@@ -30,6 +30,7 @@
     [self.mapView setShowsUserLocation:YES];
     self.mapView.delegate = self;
     [self login];
+    
 
 }
 
@@ -217,11 +218,40 @@
 }
 
 #pragma mark - Parse Query
-
+//First Attempt at Query - Brings back objects but I am not sure how to get to the location within the Object
+//-(void)parseQuery{
+//    NSMutableArray *allObjects = [NSMutableArray array];
+//    
+//    PFQuery *query = [PFQuery queryWithClassName:@"Reminder"];
+//
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        if (!error) {
+//            NSLog(@"Received objects from Parse");
+//            [allObjects addObjectsFromArray:objects];
+//            
+//        }else{
+//            NSLog(@"Error: %@ %@, error, [error userInfo]");
+//        }
+//        for (int i=0; i<[allObjects count]; i++){
+//            NSLog(@"%d: %@", i, allObjects[i]);
+//        }
+//        
+//    }];
+//}
+//Second attempt at Querry - I'm not sure what to point nearGeoPoint at to get this to work.
 -(void)parseQuery{
     NSMutableArray *allObjects = [NSMutableArray array];
     
+    
+    PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:47.6235 longitude:-122.3363];
+    PFObject *place = [[PFObject alloc] initWithClassName:@"Reminder"];
+    place[@"location"] = geoPoint;
+    
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Reminder"];
+    
+    [query whereKey:@"location" nearGeoPoint:geoPoint];
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSLog(@"Received objects from Parse");
@@ -230,12 +260,12 @@
         }else{
             NSLog(@"Error: %@ %@, error, [error userInfo]");
         }
-    }];
-    //This is getting called before the allObjects array has been populated. 
-    for (int i=0; i<[allObjects count]; i++){
-        NSLog(@"%d: %@", i, allObjects[i]);
+        for (int i=0; i<[allObjects count]; i++){
+            NSLog(@"%d: %@", i, allObjects[i]);
+            
+        }
         
-    }
+    }];
 }
 
 
