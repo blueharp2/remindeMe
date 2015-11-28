@@ -9,9 +9,11 @@
 #import "ViewController.h"
 #import "LocationController.h"
 #import "DetailViewController.h"
+#import "Reminder.h"
 @import Parse;
 @import ParseUI;
 @import MapKit;
+
 
 
 @interface ViewController () <LocationControllerDelegate, MKMapViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
@@ -242,16 +244,15 @@
 -(void)parseQuery{
     NSMutableArray *allObjects = [NSMutableArray array];
     
-    
-    PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:47.6235 longitude:-122.3363];
+    //This somehow works with the nearGeoPoint or at least it gets rid of the error.
+    PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:37.3175 longitude:-122.0419];//Apple Headquarters
     PFObject *place = [[PFObject alloc] initWithClassName:@"Reminder"];
     place[@"location"] = geoPoint;
     
     
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Reminder"];
-    
     [query whereKey:@"location" nearGeoPoint:geoPoint];
-    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSLog(@"Received objects from Parse");
@@ -260,11 +261,30 @@
         }else{
             NSLog(@"Error: %@ %@, error, [error userInfo]");
         }
+        
+        
         for (int i=0; i<[allObjects count]; i++){
             NSLog(@"%d: %@", i, allObjects[i]);
             
+            
+            //This attempt doesn't work either
+//            for (NSArray *objects in allObjects){
+//                Reminder *reminder = [[Reminder alloc]init];
+//                reminder.location = reminder[@"location"];
+//                reminder.reminder = reminder[@"reminder"];
+//                reminder.radius = reminder[@"radius"];
+//            }
+           
+            //The parseObjects below doesn't work.
+//            for (NSDictionary *parseObjects in allObjects){
+//                Reminder *reminder = [[Reminder alloc] init];
+//                if (self) {
+//                    reminder.location = parseObjects[@"location"];
+//                    reminder.reminder = parseObjects[@"reminder"];
+//                    reminder.radius = parseObjects[@"raduis"];
+//                }
+            //}
         }
-        
     }];
 }
 
