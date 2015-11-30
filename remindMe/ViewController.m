@@ -40,7 +40,8 @@
         
         [self.mapView addOverlay:circleView];
         
-
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
