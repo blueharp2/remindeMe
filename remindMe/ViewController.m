@@ -19,12 +19,30 @@
 @interface ViewController () <LocationControllerDelegate, MKMapViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-
-
+@property (strong, nonatomic) NSArray *reminders;
 
 @end
 
 @implementation ViewController
+
+- (void)setReminders:(NSArray *)reminders {
+    _reminders = reminders;
+    
+    
+    for (reminders in _reminders) {
+//        if ([CLLocationManager isMonitoringAvailableForClass:[CLCircularRegion class]]) {
+//            CLCircularRegion *region = [[CLCircularRegion alloc]initWithCenter:self.reminders[@"location"] radius:self.reminders[@"radius"] identifier:self.reminders[@"reminder"]];
+            //[MKCircle circleWithCenterCoordinate:self.reminders[@"location"] radius:self.reminders[@"radius"]];
+        
+       // ([MKCircle circleWithCenterCoordinate: radius:<#(CLLocationDistance)#>]);
+        //self.reminders([MKCircleRenderer])
+        
+        
+        };
+    }
+    
+   // NSLog(@"%@", _reminders);
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -220,70 +238,15 @@
 }
 
 #pragma mark - Parse Query
-//First Attempt at Query - Brings back objects but I am not sure how to get to the location within the Object
-//-(void)parseQuery{
-//    NSMutableArray *allObjects = [NSMutableArray array];
-//    
-//    PFQuery *query = [PFQuery queryWithClassName:@"Reminder"];
-//
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//            NSLog(@"Received objects from Parse");
-//            [allObjects addObjectsFromArray:objects];
-//            
-//        }else{
-//            NSLog(@"Error: %@ %@, error, [error userInfo]");
-//        }
-//        for (int i=0; i<[allObjects count]; i++){
-//            NSLog(@"%d: %@", i, allObjects[i]);
-//        }
-//        
-//    }];
-//}
-//Second attempt at Querry - I'm not sure what to point nearGeoPoint at to get this to work.
+
 -(void)parseQuery{
-    NSMutableArray *allObjects = [NSMutableArray array];
-    
-    //This somehow works with the nearGeoPoint or at least it gets rid of the error.
-    PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:37.3175 longitude:-122.0419];//Apple Headquarters
-    PFObject *place = [[PFObject alloc] initWithClassName:@"Reminder"];
-    place[@"location"] = geoPoint;
-    
-    
     
     PFQuery *query = [PFQuery queryWithClassName:@"Reminder"];
-    [query whereKey:@"location" nearGeoPoint:geoPoint];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray *reminders, NSError *error) {
         if (!error) {
-            NSLog(@"Received objects from Parse");
-            [allObjects addObjectsFromArray:objects];
-            
-        }else{
-            NSLog(@"Error: %@ %@, error, [error userInfo]");
-        }
-        
-        
-        for (int i=0; i<[allObjects count]; i++){
-            NSLog(@"%d: %@", i, allObjects[i]);
-            
-            
-            //This attempt doesn't work either
-//            for (NSArray *objects in allObjects){
-//                Reminder *reminder = [[Reminder alloc]init];
-//                reminder.location = reminder[@"location"];
-//                reminder.reminder = reminder[@"reminder"];
-//                reminder.radius = reminder[@"radius"];
-//            }
-           
-            //The parseObjects below doesn't work.
-//            for (NSDictionary *parseObjects in allObjects){
-//                Reminder *reminder = [[Reminder alloc] init];
-//                if (self) {
-//                    reminder.location = parseObjects[@"location"];
-//                    reminder.reminder = parseObjects[@"reminder"];
-//                    reminder.radius = parseObjects[@"raduis"];
-//                }
-            //}
+            self.reminders = reminders;
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription );
         }
     }];
 }
