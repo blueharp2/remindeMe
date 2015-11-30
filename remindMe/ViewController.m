@@ -7,24 +7,67 @@
 //
 
 #import "ViewController.h"
+#import "LocationController.h"
+#import "DetailViewController.h"
+#import "Reminder.h"
+@import Parse;
+@import ParseUI;
+@import MapKit;
 
-@interface ViewController ()
+
+
+@interface ViewController () <LocationControllerDelegate, MKMapViewDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) NSArray *reminders;
 
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self requestPermissions];
-    [self.mapView setShowsUserLocation:YES];
+- (void)setReminders:(NSArray *)reminders {
+    _reminders = reminders;
+    
+    
+    for (PFObject *reminder in _reminders) {
+        
+        PFGeoPoint *currentLocation = reminder[@"location"];
+        NSNumber *currentRadius = reminder[@"radius"];
+        
+        CLLocationCoordinate2D centerLocation = CLLocationCoordinate2DMake(currentLocation.latitude, currentLocation.longitude);
+        
+        MKCircle *circleView = [MKCircle circleWithCenterCoordinate:centerLocation radius:currentRadius.doubleValue];
+        
+        [self.mapView addOverlay:circleView];
+        
+    }
 }
 
-- (void)requestPermissions {
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    //[self requestPermissions];
+    [self.mapView setShowsUserLocation:YES];
+    self.mapView.delegate = self;
+    [self login];
     
-    self.locationManager = [[CLLocationManager alloc]init];
-    [self.locationManager requestWhenInUseAuthorization];
+
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[LocationController sharedController]setDelegate:self];
+    [[[LocationController sharedController]locationManager]startUpdatingLocation];
+    [self parseQuery];
+    [self setReminders:self.reminders];
+}
+
+
+
+//- (void)requestPermissions {
+//
+//    self.locationManager = [[CLLocationManager alloc]init];
+//    [self.locationManager requestWhenInUseAuthorization];
+//}
 
 -(void) setRegion:(MKCoordinateRegion) region{
     [self.mapView setRegion:region animated:(YES)];
@@ -58,17 +101,155 @@
         [self setRegion:region];
     }
     
-   // }
+    // }
     
+}
 
+- (IBAction)handleLongPressGesture:(UILongPressGestureRecognizer *)sender {
     
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        
+        CGPoint touchPoint = [sender locationInView:self.mapView];
+        CLLocationCoordinate2D cordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView: self.mapView];
+        
+        MKPointAnnotation *newPoint = [[MKPointAnnotation alloc]init];
+        newPoint.coordinate = cordinate;
+        newPoint.title = @"New Location";
+        newPoint.subtitle = @"Hello";
+        
+        [self.mapView addAnnotation:newPoint];
+        
+        
+    }
+}
+
+
+#pragma mark - LocationController
+
+-(void)locationControllerDidUpdateLocation:(CLLocation *)location{
+    [self setRegion: MKCoordinateRegionMakeWithDistance(location.coordinate, 500.0, 500.)];
 }
 
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark = MKMapViewDelegate
+
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    
+    //Add view
+    MKPinAnnotationView *annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"AnnotationView"];
+    
+    annotationView.annotation = annotation;
+    
+//    if (!annotationView) {
+        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"AnnotationView"];
+        annotationView.canShowCallout = YES;
+        UIButton *rightCallout = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+
+                annotationView.rightCalloutAccessoryView = rightCallout;
+//    }
+    return annotationView;
+    
 }
+
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *) control {
+    [self performSegueWithIdentifier: @"DetailViewController" sender:view];
+}
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
+    MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc]initWithOverlay:overlay];
+    circleRenderer.strokeColor = [UIColor redColor];
+    circleRenderer.fillColor = [UIColor redColor];
+    circleRenderer.alpha = 0.5;
+    
+    return circleRenderer;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"DetailViewController"]) {
+        if ([sender isKindOfClass:[MKAnnotationView class]]){
+            MKAnnotationView *annotationView = (MKAnnotationView *) sender;
+            DetailViewController *detailViewController = (DetailViewController *)segue.destinationViewController;
+            detailViewController.annotationTitle = annotationView.annotation.title;
+            detailViewController.coordinate = annotationView.annotation.coordinate;
+           
+            __weak typeof(self) weakSelf = self;
+            
+            detailViewController.completion = ^(MKCircle *circle) {
+                [weakSelf.mapView removeAnnotation:annotationView.annotation];
+                [weakSelf.mapView addOverlay:circle];
+                
+            };
+        }
+    }
+    
+}
+
+#pragma mark -Parse Setup
+
+-(void)login{
+    if (![PFUser currentUser]){
+        
+        
+        PFLogInViewController * loginViewController = [[PFLogInViewController alloc]init];
+        [loginViewController setDelegate:self];
+        
+        PFSignUpViewController * signupViewController = [[PFSignUpViewController alloc] init];
+        [signupViewController setDelegate:self];
+        
+        [loginViewController setSignUpController:signupViewController];
+
+        
+        [self presentViewController:loginViewController animated:YES completion:nil];
+        
+    }else{
+        [self setupAdditionalUI];
+    }
+}
+
+
+-(void)setupAdditionalUI{
+    UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc]initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(signOut)];
+    self.navigationItem.leftBarButtonItem = signOutButton;
+}
+
+-(void)signOut{
+    
+    [PFUser logOut];
+    [self login];
+}
+
+#pragma mark - PFLoginViewControllerDelegate
+
+-(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self setupAdditionalUI];
+}
+
+#pragma mark - PFSignUpViewControllerDelegate
+
+-(void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self setupAdditionalUI];
+}
+
+#pragma mark - Parse Query
+
+-(void)parseQuery{
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Reminder"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *reminders, NSError *error) {
+        if (!error) {
+            self.reminders = reminders;
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription );
+        }
+    }];
+}
+
 
 @end
