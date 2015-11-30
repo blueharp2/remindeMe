@@ -29,20 +29,18 @@
     _reminders = reminders;
     
     
-    for (reminders in _reminders) {
-//        if ([CLLocationManager isMonitoringAvailableForClass:[CLCircularRegion class]]) {
-//            CLCircularRegion *region = [[CLCircularRegion alloc]initWithCenter:self.reminders[@"location"] radius:self.reminders[@"radius"] identifier:self.reminders[@"reminder"]];
-            //[MKCircle circleWithCenterCoordinate:self.reminders[@"location"] radius:self.reminders[@"radius"]];
+    for (PFObject *reminder in _reminders) {
         
-       // ([MKCircle circleWithCenterCoordinate: radius:<#(CLLocationDistance)#>]);
-        //self.reminders([MKCircleRenderer])
+        PFGeoPoint *currentLocation = reminder[@"location"];
+        NSNumber *currentRadius = reminder[@"radius"];
         
+        CLLocationCoordinate2D centerLocation = CLLocationCoordinate2DMake(currentLocation.latitude, currentLocation.longitude);
         
-        };
-    }
-    
-   // NSLog(@"%@", _reminders);
-//}
+        MKCircle *circleView = [MKCircle circleWithCenterCoordinate:centerLocation radius:currentRadius.doubleValue];
+        
+        [self.mapView addOverlay:circleView];
+        
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -59,6 +57,7 @@
     [[LocationController sharedController]setDelegate:self];
     [[[LocationController sharedController]locationManager]startUpdatingLocation];
     [self parseQuery];
+    [self setReminders:self.reminders];
 }
 
 
